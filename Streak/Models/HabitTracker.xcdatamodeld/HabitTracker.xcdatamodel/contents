@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Achievement" representedClassName="CDAchievement" syncable="YES">
+        <attribute name="achievementDescription" optional="YES" attributeType="String"/>
+        <attribute name="dateAchieved" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="iconName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="achievements" inverseEntity="User"/>
+    </entity>
+    <entity name="Reward" representedClassName="CDReward" syncable="YES">
+        <attribute name="iconName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="rewardDescription" optional="YES" attributeType="String"/>
+        <attribute name="streakDays" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="rewards" inverseEntity="User"/>
+    </entity>
+    <entity name="Tracker" representedClassName=".CDTracker" syncable="YES">
+        <attribute name="createdDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="iconName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="targetDays" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackingEntry" inverseName="tracker" inverseEntity="TrackingEntry"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="trackers" inverseEntity="User"/>
+    </entity>
+    <entity name="TrackingEntry" representedClassName=".CDTrackingEntry" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isCompleted" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tracker" inverseName="entries" inverseEntity="Tracker"/>
+    </entity>
+    <entity name="User" representedClassName=".CDUser" syncable="YES">
+        <attribute name="avatarName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="reminders" optional="YES" attributeType="Binary"/>
+        <attribute name="remindersEnabled" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="reminderTimes" optional="YES" attributeType="Transformable" valueTransformerName="DateArrayTransformer" customClassName="NSArray"/>
+        <attribute name="theme" optional="YES" attributeType="String"/>
+        <relationship name="achievements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Achievement" inverseName="user" inverseEntity="Achievement"/>
+        <relationship name="rewards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Reward" inverseName="user" inverseEntity="Reward"/>
+        <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tracker" inverseName="user" inverseEntity="Tracker"/>
+    </entity>
+</model>
