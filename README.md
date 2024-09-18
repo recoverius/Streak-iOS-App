@@ -1,4 +1,5 @@
 **Streak: Minimalist Habit Tracker**
+![Uploading Simulator Screenshot - iPhone 15 - 2024-09-17 at 19.17.19.png…]()
 
 **About**
 
