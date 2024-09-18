@@ -1,6 +1,5 @@
 **Streak: Minimalist Habit Tracker**
-![Simulator Screenshot - iPhone 15 - 2024-09-17 at 19 17 19](https://github.com/user-attachments/assets/2a923e4b-dda7-4e12-8f98-9411d54f853f)
-
+![Simulator Screenshot - iPhone 15 - 2024-09-17 at 19 17 19](https://github.com/user-attachments/assets/2a923e4b-dda7-4e12-8f98-9411d54f853f =400x800)
 
 **About**
 
