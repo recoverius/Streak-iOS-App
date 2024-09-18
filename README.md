@@ -1,4 +1,6 @@
 **Streak: Minimalist Habit Tracker**
+
+
 <img src="https://github.com/user-attachments/assets/2a923e4b-dda7-4e12-8f98-9411d54f853f" width="400" height="800" />
 
 
