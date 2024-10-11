@@ -3,6 +3,8 @@
 ## About
 <img src="https://github.com/user-attachments/assets/2a923e4b-dda7-4e12-8f98-9411d54f853f" width="200" height="400" />
 
+[![Link to AppStore](https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg)](https://apps.apple.com/nl/app/streak-habit-tracker/id6692634213?l=en-GB)
+
 Streak is an experimental minimalist habit tracking app developed in just 6 hours with the assistance of Large Language Models (LLMs). This project showcases the potential of AI-assisted rapid prototyping in iOS app development.
 
 ## Development Process
