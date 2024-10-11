@@ -51,7 +51,7 @@ struct ReminderSetupView: View {
         Toggle(isOn: $remindersEnabled.animation()) {
             Label("Enable Reminders", systemImage: "bell.fill")
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
         }
         .toggleStyle(SwitchToggleStyle(tint: Color.customPalette.electricBlue))
         .padding()
@@ -91,7 +91,7 @@ struct ReminderSetupView: View {
         Button(action: addReminder) {
             Label("Add Reminder (max 3)", systemImage: "plus.circle.fill")
                 .font(.system(size: 18, weight: .semibold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .padding()
                 .frame(maxWidth: .infinity)
                 .background(
@@ -150,7 +150,7 @@ struct ReminderRow: View {
             // Delete button
             Button(action: onDelete) {
                 Image(systemName: "trash")
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .frame(width: 50, height: 50)
             }
             .background(Color.customPalette.brightMagenta)
@@ -164,7 +164,7 @@ struct ReminderRow: View {
                     .font(.system(size: 20))
                 Text(reminder.time, style: .time)
                     .font(.system(size: 18, weight: .medium, design: .rounded))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Spacer()
                 if let customText = reminder.customText {
                     Text(customText)
@@ -220,7 +220,7 @@ struct ReminderEditView: View {
         VStack(spacing: 20) {
             Text("Edit Reminder")
                 .font(.system(size: 24, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
             
             VStack(spacing: 15) {
                 DatePicker("Time", selection: $tempTime, displayedComponents: .hourAndMinute)
@@ -236,7 +236,7 @@ struct ReminderEditView: View {
                     .padding()
                     .background(Color.customPalette.softPurple.opacity(0.5))
                     .cornerRadius(10)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             }
             .padding()
             .background(Color.customPalette.softPurple.opacity(0.3))
@@ -273,7 +273,7 @@ struct ReminderEditButtonStyle: ButtonStyle {
             .padding(.vertical, 12)
             .padding(.horizontal, 30)
             .background(color)
-            .foregroundColor(.white)
+            .foregroundColor(.black)
             .cornerRadius(10)
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
             .animation(.easeInOut(duration: 0.2), value: configuration.isPressed)

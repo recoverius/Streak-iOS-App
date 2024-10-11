@@ -15,6 +15,9 @@ struct AddHabitView: View {
     @State private var selectedIcon = "star.fill"
     @State private var selectedTarget: HabitTarget = .daily
     @State private var customDays = 1
+    @State private var startDate = Date()
+    @State private var selectedColor = "pastelBlue"
+    
     
     let iconOptions = [
         "book.fill",
@@ -62,7 +65,7 @@ struct AddHabitView: View {
             HStack {
                 Text("Add New Habit")
                     .font(.system(size: 24, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Spacer()
                 Button(action: {
                     isPresented = false
@@ -95,7 +98,7 @@ struct AddHabitView: View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Customize your habit")
                 .font(.system(size: 22, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
             
             VStack(alignment: .leading, spacing: 10) {
                 Text("Habit Name")
@@ -113,6 +116,8 @@ struct AddHabitView: View {
                 
                 iconPicker
             }
+
+            ColorPickerView(selectedColor: $selectedColor)
         }
         .padding()
         .background(Color.customPalette.softPurple.opacity(0.2))
@@ -120,23 +125,33 @@ struct AddHabitView: View {
     }
     
     private var iconPicker: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 15), count: 4), spacing: 15) {
-            ForEach(iconOptions, id: \.self) { icon in
-                Image(systemName: icon)
-                    .font(.system(size: 24))
-                    .foregroundColor(selectedIcon == icon ? .white : Color.customPalette.lightGray)
-                    .frame(width: 60, height: 60)
-                    .background(selectedIcon == icon ? Color.customPalette.electricBlue : Color.customPalette.softPurple.opacity(0.5))
-                    .cornerRadius(15)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(selectedIcon == icon ? Color.customPalette.electricBlue : Color.clear, lineWidth: 2)
-                    )
-                    .onTapGesture {
-                        withAnimation(.spring()) {
-                            selectedIcon = icon
+        Grid(horizontalSpacing: 15, verticalSpacing: 15) {
+            ForEach(0..<(iconOptions.count + 3) / 4, id: \.self) { row in
+                GridRow {
+                    ForEach(0..<4) { column in
+                        let index = row * 4 + column
+                        if index < iconOptions.count {
+                            let icon = iconOptions[index]
+                            Image(systemName: icon)
+                                .font(.system(size: 24))
+                                .foregroundColor(selectedIcon == icon ? .white : Color.customPalette.lightGray)
+                                .frame(width: 60, height: 60)
+                                .background(selectedIcon == icon ? Color.customPalette.electricBlue : Color.customPalette.softPurple.opacity(0.5))
+                                .cornerRadius(15)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(selectedIcon == icon ? Color.customPalette.electricBlue : Color.clear, lineWidth: 2)
+                                )
+                                .onTapGesture {
+                                    withAnimation(.spring()) {
+                                        selectedIcon = icon
+                                    }
+                                }
+                        } else {
+                            Color.clear
                         }
                     }
+                }
             }
         }
     }
@@ -145,7 +160,7 @@ struct AddHabitView: View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Target")
                 .font(.system(size: 22, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
             
             VStack(alignment: .leading, spacing: 15) {
                 Text("Frequency")
@@ -167,12 +182,27 @@ struct AddHabitView: View {
                     Text("Every")
                         .foregroundColor(Color.customPalette.lightGray)
                     Stepper("\(customDays) days", value: $customDays, in: 1...30)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                 }
                 .padding(.vertical, 10)
                 .padding(.horizontal, 15)
                 .background(Color.customPalette.softPurple.opacity(0.3))
                 .cornerRadius(10)
+            }
+            
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Start Date")
+                    .font(.system(size: 17, weight: .semibold, design: .rounded))
+                    .foregroundColor(Color.customPalette.lightGray)
+                
+                DatePicker("", selection: $startDate, displayedComponents: .date)
+                    .datePickerStyle(CompactDatePickerStyle())
+                    .accentColor(Color.customPalette.electricBlue)
+                    .colorScheme(.dark)
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 10)
+                    .background(Color.customPalette.softPurple.opacity(0.3))
+                    .cornerRadius(10)
             }
         }
         .padding()
@@ -184,12 +214,12 @@ struct AddHabitView: View {
         Button(action: saveHabit) {
             Text("Save Habit")
                 .font(.system(size: 18, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(habitName.isEmpty ? Color.customPalette.lightGray : Color.customPalette.electricBlue)
+                .background(habitName.isEmpty ? Color.customPalette.lightGray : Color.customPalette[selectedColor])
                 .cornerRadius(15)
-                .shadow(color: habitName.isEmpty ? Color.clear : Color.customPalette.electricBlue.opacity(0.5), radius: 5, x: 0, y: 3)
+                .shadow(color: habitName.isEmpty ? Color.clear : Color.customPalette[selectedColor].opacity(0.5), radius: 5, x: 0, y: 3)
         }
         .disabled(habitName.isEmpty)
     }
@@ -203,7 +233,7 @@ struct AddHabitView: View {
             target = .custom(days: customDays)
         }
         
-        viewModel.addNewHabit(name: habitName, iconName: selectedIcon, target: target)
+        viewModel.addNewHabit(name: habitName, iconName: selectedIcon, colorName: selectedColor, target: target, startDate: startDate)
         isPresented = false
     }
     
@@ -211,7 +241,7 @@ struct AddHabitView: View {
         VStack(alignment: .leading, spacing: 15) {
             Text("Popular Habits")
                 .font(.system(size: 22, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+                .foregroundColor(.black)
 
             GeometryReader { geometry in
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -245,10 +275,10 @@ struct AddHabitView: View {
                 VStack(spacing: 5) {
                     Image(systemName: habit.icon)
                         .font(.system(size: 24))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                     Text(habit.name)
                         .font(.system(size: 14, weight: .medium, design: .rounded))
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .minimumScaleFactor(0.5)
                         .lineLimit(2)
                         .padding(.horizontal, 10)
@@ -293,7 +323,7 @@ struct CustomTextFieldStyle: TextFieldStyle {
             .padding()
             .background(Color.customPalette.softPurple.opacity(0.3))
             .cornerRadius(10)
-            .foregroundColor(.white)
+            .foregroundColor(.black)
     }
 }
 

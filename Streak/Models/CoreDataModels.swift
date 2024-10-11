@@ -11,6 +11,7 @@ public class CDUser: NSManagedObject {
     @NSManaged public var reminders: Data?
     @NSManaged public var trackers: NSSet?
     @NSManaged public var achievements: NSSet?
+    @NSManaged public var friends: NSSet?
 }
 
 
@@ -32,13 +33,22 @@ extension CDUser {
 
 @objc(CDTracker)
 public class CDTracker: NSManagedObject {
-    @NSManaged public var id: UUID
-    @NSManaged public var name: String
-    @NSManaged public var iconName: String
-    @NSManaged public var targetDays: Int16
-    @NSManaged public var createdDate: Date
-    @NSManaged public var user: CDUser?
-    @NSManaged public var entries: NSSet?
+       @NSManaged public var id: UUID
+       @NSManaged public var name: String
+       @NSManaged public var iconName: String
+       @NSManaged public var colorName: String
+       @NSManaged public var targetDays: Int16
+       @NSManaged public var createdDate: Date
+       @NSManaged public var startDate: Date? // Change to optional
+       @NSManaged public var user: CDUser?
+       @NSManaged public var entries: NSSet?
+   }
+
+extension CDUser {
+    var friendsArray: [CDFriend] {
+        let set = friends as? Set<CDFriend> ?? []
+        return set.sorted { $0.name < $1.name }
+    }
 }
 
 extension CDTracker {
@@ -97,3 +107,45 @@ extension CDReward {
         return NSFetchRequest<CDReward>(entityName: "Reward")
     }
 }
+
+
+@objc(CDFriend)
+public class CDFriend: NSManagedObject {
+    @NSManaged public var id: UUID
+    @NSManaged public var name: String
+    @NSManaged public var phoneNumber: String
+    @NSManaged public var status: String
+    @NSManaged public var achievements: NSSet?
+    @NSManaged public var calendarEntries: NSSet?
+    @NSManaged public var user: CDUser?
+}
+
+extension CDFriend {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CDFriend> {
+        return NSFetchRequest<CDFriend>(entityName: "Friend")
+    }
+    
+    var achievementsArray: [CDAchievement] {
+        let set = achievements as? Set<CDAchievement> ?? []
+        return set.sorted { $0.dateAchieved > $1.dateAchieved }
+    }
+    
+    var calendarEntriesArray: [CDCalendarEntry] {
+        let set = calendarEntries as? Set<CDCalendarEntry> ?? []
+        return set.sorted { $0.date < $1.date }
+    }
+}
+
+@objc(CDCalendarEntry)
+public class CDCalendarEntry: NSManagedObject {
+    @NSManaged public var id: UUID
+    @NSManaged public var date: Date
+    @NSManaged public var tracker: CDTracker?
+}
+
+extension CDCalendarEntry {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<CDCalendarEntry> {
+        return NSFetchRequest<CDCalendarEntry>(entityName: "CalendarEntry")
+    }
+}
+

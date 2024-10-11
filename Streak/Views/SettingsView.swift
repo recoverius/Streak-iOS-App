@@ -1,17 +1,19 @@
 import SwiftUI
+import Combine
 
 struct SettingsView: View {
     @ObservedObject var viewModel: SettingsViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var showingResetConfirmation = false
-    @State private var hasChanges = false
     @State private var showSaveConfirmation = false
+    @State private var saveDebouncer = Debouncer(delay: 0.5)
+
 
     var body: some View {
         NavigationView {
             ZStack {
                 // Gradient Background
-                LinearGradient(gradient: Gradient(colors: [Color.customPalette.richBlack, Color.customPalette.darkGray]), startPoint: .top, endPoint: .bottom)
+                LinearGradient(gradient: Gradient(colors: [Color.customPalette.richBlack, Color.customPalette.richBlack]), startPoint: .top, endPoint: .bottom)
                     .edgesIgnoringSafeArea(.all)
 
                 ScrollView {
@@ -32,16 +34,16 @@ struct SettingsView: View {
                         Text("Settings Saved")
                             .font(.headline)
                             .padding()
-                            .background(Color.customPalette.electricBlue)
-                            .foregroundColor(.white)
+                            .background(Color.customPalette.electricBlue.opacity(0.4))
+                            .foregroundColor(.black)
                             .cornerRadius(10)
                             .shadow(radius: 10)
                             .transition(.move(edge: .bottom))
                             .padding(.bottom, 50)
                     }
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                            withAnimation {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            withAnimation(.easeInOut(duration: 0.5)) {
                                 showSaveConfirmation = false
                             }
                         }
@@ -50,7 +52,7 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: cancelButton, trailing: saveButton)
+            .navigationBarItems(leading: cancelButton)
         }
         .accentColor(Color.customPalette.electricBlue)
         .alert(isPresented: $showingResetConfirmation) {
@@ -67,27 +69,19 @@ struct SettingsView: View {
     }
 
     private var cancelButton: some View {
-        Button("Cancel") {
-            presentationMode.wrappedValue.dismiss()
+            Button("Done") {
+                presentationMode.wrappedValue.dismiss()
+            }
+            .foregroundColor(Color.customPalette.brightMagenta)
         }
-        .foregroundColor(Color.customPalette.brightMagenta)
-    }
 
-    private var saveButton: some View {
-        Button("Save") {
+    private func saveSettings() {
+        saveDebouncer.debounce {
             viewModel.saveSettings()
             withAnimation {
                 showSaveConfirmation = true
             }
-            hasChanges = false
-            
-            // Dismiss the view after a short delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                presentationMode.wrappedValue.dismiss()
-            }
         }
-        .disabled(!hasChanges)
-        .foregroundColor(hasChanges ? Color.customPalette.electricBlue : Color.customPalette.lightGray)
     }
 
     private var userInformationSection: some View {
@@ -96,21 +90,21 @@ struct SettingsView: View {
                 .padding()
                 .background(Color.white.opacity(0.1))
                 .cornerRadius(8)
-                .foregroundColor(.white)
-                .onChange(of: viewModel.userName) { _ in hasChanges = true }
+                .foregroundColor(.black)
+                .onChange(of: viewModel.userName) { _ in saveSettings() }
         }
     }
 
     private var notificationsSection: some View {
-            SettingsSection(iconName: "bell.circle", title: "Reminders") {
-                ReminderSetupView(
-                    reminders: $viewModel.reminders,
-                    remindersEnabled: $viewModel.remindersEnabled
-                )
-                .onChange(of: viewModel.reminders) { _ in hasChanges = true }
-                .onChange(of: viewModel.remindersEnabled) { _ in hasChanges = true }
-            }
+        SettingsSection(iconName: "bell.circle", title: "Reminders") {
+            ReminderSetupView(
+                reminders: $viewModel.reminders,
+                remindersEnabled: $viewModel.remindersEnabled
+            )
+            .onChange(of: viewModel.reminders) { _ in saveSettings() }
+            .onChange(of: viewModel.remindersEnabled) { _ in saveSettings() }
         }
+    }
 
     private var appearanceSection: some View {
         SettingsSection(iconName: "paintbrush", title: "Appearance") {
@@ -120,7 +114,7 @@ struct SettingsView: View {
                 Text("System").tag(AppTheme.system)
             }
             .pickerStyle(SegmentedPickerStyle())
-            .onChange(of: viewModel.selectedTheme) { _ in hasChanges = true }
+            .onChange(of: viewModel.selectedTheme) { _ in saveSettings() }
         }
     }
 
@@ -135,7 +129,7 @@ struct SettingsView: View {
                     .padding()
                     .background(Color.customPalette.brightMagenta.opacity(0.2))
                     .cornerRadius(10)
-                    .shadow(radius: 5)
+                    //.shadow(radius: 5)
             }
         }
     }
@@ -147,7 +141,7 @@ struct SettingsView: View {
                     .foregroundColor(Color.customPalette.lightGray)
                 Spacer()
                 Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             }
         }
     }
@@ -198,7 +192,7 @@ struct SettingsSection<Content: View>: View {
                     .font(.title2)
                 Text(title)
                     .font(.system(size: 22, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
             }
             .padding(.bottom, 5)
             content
@@ -206,12 +200,22 @@ struct SettingsSection<Content: View>: View {
         .padding()
         .background(Color.customPalette.softPurple.opacity(0.3))
         .cornerRadius(15)
-        .shadow(color: Color.black.opacity(0.25), radius: 5, x: 0, y: 5)
+        //.shadow(color: Color.black.opacity(0.25), radius: 5, x: 0, y: 5)
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(viewModel: SettingsViewModel())
+
+struct Debouncer {
+    private let delay: TimeInterval
+    private var workItem: DispatchWorkItem?
+
+    init(delay: TimeInterval) {
+        self.delay = delay
+    }
+
+    mutating func debounce(action: @escaping () -> Void) {
+        workItem?.cancel()
+        workItem = DispatchWorkItem { action() }
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem!)
     }
 }

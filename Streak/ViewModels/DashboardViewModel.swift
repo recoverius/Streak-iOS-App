@@ -15,6 +15,8 @@ class DashboardViewModel: ObservableObject {
     @Published var newAchievements: [Achievement] = []
     @Published var currentNewAchievement: Achievement?
     @Published var newRewards: [Reward] = []
+    @Published var todayTrackers: [Tracker] = []
+    @Published var longestStreak: Int = 0 
     
     private let coreDataManager = CoreDataManager.shared
     private let gamificationManager = GamificationManager.shared
@@ -33,8 +35,10 @@ class DashboardViewModel: ObservableObject {
         
         if let user = currentUser {
             trackers = coreDataManager.fetchTrackers(for: user)
+            longestStreak = trackers.map { calculateCurrentStreak(for: $0) }.max() ?? 0  // Add this line
         }
     }
+    
     func frequencyText(for tracker: Tracker) -> String {
         switch tracker.target {
         case .daily:
@@ -58,11 +62,17 @@ class DashboardViewModel: ObservableObject {
             frequencyDays = days
         }
 
-        guard let daysSinceCreation = calendar.dateComponents([.day], from: tracker.createdDate, to: date).day else {
+        // Use the start date of the habit instead of the creation date
+        guard let daysSinceStart = calendar.dateComponents([.day], from: tracker.startDate, to: date).day else {
             return false
         }
 
-        return daysSinceCreation % frequencyDays == 0
+        // Check if the current date is on or after the start date
+        guard date >= tracker.startDate else {
+            return false
+        }
+
+        return daysSinceStart % frequencyDays == 0
     }
 
     func deleteHabit(_ tracker: Tracker) {
@@ -134,11 +144,17 @@ class DashboardViewModel: ObservableObject {
     func dismissCurrentAchievement() {
             currentNewAchievement = newAchievements.dropFirst().first
         }
-    
-    func addNewHabit(name: String, iconName: String, target: HabitTarget) {
-        guard let user = currentUser else { return }
-        _ = coreDataManager.createTracker(name: name, iconName: iconName, target: target, for: user)
+
+    func updateHabit(habit: Tracker, name: String, iconName: String, colorName: String, target: HabitTarget, startDate: Date) {
+        coreDataManager.updateTracker(habit, name: name, iconName: iconName, colorName: colorName, target: target, startDate: startDate)
         loadData() // Reload data to reflect changes
+    }
+
+    func addNewHabit(name: String, iconName: String, colorName: String, target: HabitTarget, startDate: Date) {
+        guard let user = currentUser else { return }
+        _ = coreDataManager.createTracker(name: name, iconName: iconName, colorName: colorName, target: target, startDate: startDate, for: user)
+        loadData() // Reload data to reflect changes
+        objectWillChange.send() // Notify observers that the object has changed
     }
     
     func calculateCurrentStreak(for tracker: Tracker) -> Int {
@@ -146,34 +162,31 @@ class DashboardViewModel: ObservableObject {
         var streak = 0
         let calendar = Calendar.current
         var currentDate = Date()
-        var frequencyDays: Int
-
-        switch tracker.target {
-        case .daily:
-            frequencyDays = 1
-        case .weekly:
-            frequencyDays = 7
-        case .custom(let days):
-            frequencyDays = days
-        }
-
+        
         for entry in sortedEntries {
             if calendar.isDate(entry.date, inSameDayAs: currentDate) && entry.isCompleted {
                 streak += 1
-                if let previousDate = calendar.date(byAdding: .day, value: -frequencyDays, to: currentDate) {
+                if let previousDate = calendar.date(byAdding: .day, value: -1, to: currentDate) {
                     currentDate = previousDate
                 } else {
                     break
                 }
+            } else if calendar.isDate(entry.date, inSameDayAs: currentDate) && !entry.isCompleted {
+                // Streak is broken
+                break
             } else if calendar.compare(entry.date, to: currentDate, toGranularity: .day) == .orderedAscending {
+                // We've reached a day before the current date without a completed entry
                 break
             } else {
-                if let newDate = calendar.date(byAdding: .day, value: -frequencyDays, to: currentDate) {
+                // Move to the previous day
+                if let newDate = calendar.date(byAdding: .day, value: -1, to: currentDate) {
                     currentDate = newDate
+                } else {
+                    break
                 }
             }
         }
-
+        
         return streak
     }
 

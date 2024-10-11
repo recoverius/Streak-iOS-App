@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C28CB72A2C9E36B800A00C0B /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28CB7292C9E36B800A00C0B /* Friends.swift */; };
+		C28CB72C2C9E374100A00C0B /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28CB72B2C9E374100A00C0B /* CloudKitManager.swift */; };
+		C28CB72E2C9E378100A00C0B /* FriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28CB72D2C9E378100A00C0B /* FriendsView.swift */; };
+		C28CB7302C9E37AE00A00C0B /* FriendsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C28CB72F2C9E37AE00A00C0B /* FriendsViewModel.swift */; };
 		C2C445DA2C9996680001776B /* StreakApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C445D92C9996680001776B /* StreakApp.swift */; };
 		C2C445DF2C9996680001776B /* Streak.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C2C445DD2C9996680001776B /* Streak.xcdatamodeld */; };
 		C2C445E12C9996680001776B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C445E02C9996680001776B /* ContentView.swift */; };
@@ -35,6 +39,8 @@
 		C2C446432C99DA400001776B /* checkmark.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = C2C446402C99DA400001776B /* checkmark.mp3 */; };
 		C2C446452C99E5250001776B /* IconPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C446442C99E5250001776B /* IconPickerView.swift */; };
 		C2C4464E2C9A30330001776B /* ReminderSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C4464D2C9A30330001776B /* ReminderSetupView.swift */; };
+		C2C446542C9DAA7F0001776B /* EditHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C446532C9DAA7F0001776B /* EditHabitView.swift */; };
+		C2C446582C9DE58D0001776B /* BonFire.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2C446572C9DE58D0001776B /* BonFire.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +61,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C28CB7292C9E36B800A00C0B /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
+		C28CB72B2C9E374100A00C0B /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitManager.swift; sourceTree = "<group>"; };
+		C28CB72D2C9E378100A00C0B /* FriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsView.swift; sourceTree = "<group>"; };
+		C28CB72F2C9E37AE00A00C0B /* FriendsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewModel.swift; sourceTree = "<group>"; };
 		C2C445D62C9996680001776B /* Streak.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Streak.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C2C445D92C9996680001776B /* StreakApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakApp.swift; sourceTree = "<group>"; };
 		C2C445DE2C9996680001776B /* Streak.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Streak.xcdatamodel; sourceTree = "<group>"; };
@@ -87,6 +97,8 @@
 		C2C446402C99DA400001776B /* checkmark.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = checkmark.mp3; sourceTree = "<group>"; };
 		C2C446442C99E5250001776B /* IconPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconPickerView.swift; sourceTree = "<group>"; };
 		C2C4464D2C9A30330001776B /* ReminderSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSetupView.swift; sourceTree = "<group>"; };
+		C2C446532C9DAA7F0001776B /* EditHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitView.swift; sourceTree = "<group>"; };
+		C2C446572C9DE58D0001776B /* BonFire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BonFire.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +198,7 @@
 				C2C4461F2C99A14E0001776B /* CoreDataModels.swift */,
 				C2C446232C99A6650001776B /* Models.swift */,
 				C2C446252C99A6800001776B /* CoreDataManager.swift */,
+				C28CB7292C9E36B800A00C0B /* Friends.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -198,6 +211,9 @@
 				C2C446292C99ACD50001776B /* SettingsView.swift */,
 				C2C4462D2C99AD6A0001776B /* AchievementsView.swift */,
 				C2C446442C99E5250001776B /* IconPickerView.swift */,
+				C2C446532C9DAA7F0001776B /* EditHabitView.swift */,
+				C2C446572C9DE58D0001776B /* BonFire.swift */,
+				C28CB72D2C9E378100A00C0B /* FriendsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -208,6 +224,7 @@
 				C2C446182C9998720001776B /* DashboardViewModel.swift */,
 				C2C4462B2C99ACEB0001776B /* SettingsViewModel.swift */,
 				C2C4464D2C9A30330001776B /* ReminderSetupView.swift */,
+				C28CB72F2C9E37AE00A00C0B /* FriendsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -219,6 +236,7 @@
 				C2C4462F2C99B3D00001776B /* DateArrayTransformer.swift */,
 				C2C446312C99C3320001776B /* NotificationManager.swift */,
 				C2C446352C99D0690001776B /* SoundManager.swift */,
+				C28CB72B2C9E374100A00C0B /* CloudKitManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -374,20 +392,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C28CB7302C9E37AE00A00C0B /* FriendsViewModel.swift in Sources */,
 				C2C446192C9998720001776B /* DashboardViewModel.swift in Sources */,
 				C2C446172C99985D0001776B /* DashboardView.swift in Sources */,
 				C2C445DA2C9996680001776B /* StreakApp.swift in Sources */,
+				C28CB72A2C9E36B800A00C0B /* Friends.swift in Sources */,
+				C2C446542C9DAA7F0001776B /* EditHabitView.swift in Sources */,
 				C2C446202C99A14E0001776B /* CoreDataModels.swift in Sources */,
 				C2C446302C99B3D00001776B /* DateArrayTransformer.swift in Sources */,
 				C2C446452C99E5250001776B /* IconPickerView.swift in Sources */,
+				C2C446582C9DE58D0001776B /* BonFire.swift in Sources */,
 				C2C4461E2C99A0FE0001776B /* HabitTracker.xcdatamodeld in Sources */,
 				C2C446322C99C3320001776B /* NotificationManager.swift in Sources */,
 				C2C4464E2C9A30330001776B /* ReminderSetupView.swift in Sources */,
+				C28CB72C2C9E374100A00C0B /* CloudKitManager.swift in Sources */,
 				C2C445E12C9996680001776B /* ContentView.swift in Sources */,
 				C2C4462E2C99AD6A0001776B /* AchievementsView.swift in Sources */,
 				C2C445DF2C9996680001776B /* Streak.xcdatamodeld in Sources */,
 				C2C446222C99A1D60001776B /* AddHabitView.swift in Sources */,
 				C2C446262C99A6800001776B /* CoreDataManager.swift in Sources */,
+				C28CB72E2C9E378100A00C0B /* FriendsView.swift in Sources */,
 				C2C446282C99ACB40001776B /* GamificationManager.swift in Sources */,
 				C2C446242C99A6650001776B /* Models.swift in Sources */,
 				C2C4462A2C99ACD50001776B /* SettingsView.swift in Sources */,
@@ -571,7 +595,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.streakapp.Streakapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
@@ -611,7 +635,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = com.streakapp.Streakapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;

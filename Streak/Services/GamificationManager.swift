@@ -18,24 +18,30 @@ class GamificationManager {
         var newAchievements: [Achievement] = []
         
         // Check for streak-based achievements
-        if streak >= 7 && !user.achievements.contains(where: { $0.id == UUID(uuidString: "week-warrior")! }) {
-            let achievement = coreDataManager.createAchievement(
-                title: "Week Warrior",
-                description: "Maintain a 7-day streak",
-                iconName: "star.circle.fill",
-                for: user
-            )
-            newAchievements.append(achievement)
+        if streak >= 7 {
+            let weekWarriorID = UUID(uuidString: "week-warrior")
+            if let id = weekWarriorID, !user.achievements.contains(where: { $0.id == id }) {
+                let achievement = coreDataManager.createAchievement(
+                    title: "Week Warrior",
+                    description: "Maintain a 7-day streak",
+                    iconName: "star.circle.fill",
+                    for: user
+                )
+                newAchievements.append(achievement)
+            }
         }
         
-        if streak >= 30 && !user.achievements.contains(where: { $0.id == UUID(uuidString: "monthly-master")! }) {
-            let achievement = coreDataManager.createAchievement(
-                title: "Monthly Master",
-                description: "Maintain a 30-day streak",
-                iconName: "star.square.fill",
-                for: user
-            )
-            newAchievements.append(achievement)
+        if streak >= 30 {
+            let monthlyMasterID = UUID(uuidString: "monthly-master")
+            if let id = monthlyMasterID, !user.achievements.contains(where: { $0.id == id }) {
+                let achievement = coreDataManager.createAchievement(
+                    title: "Monthly Master",
+                    description: "Maintain a 30-day streak",
+                    iconName: "star.square.fill",
+                    for: user
+                )
+                newAchievements.append(achievement)
+            }
         }
         
         // Check for completion-based achievements

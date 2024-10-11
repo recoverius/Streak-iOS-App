@@ -69,3 +69,51 @@ struct IconPickerView: View {
         }
     }
 }
+
+
+struct ColorPickerView: View {
+    @Binding var selectedColor: String
+    
+    let colors = [
+        "pastelRed", "pastelOrange", "pastelYellow",
+        "pastelGreen", "pastelBlue", "pastelPurple", 
+        "deepPastelRed", "deepPastelOrange", "deepPastelYellow",
+        "deepPastelGreen", "deepPastelBlue", "deepPastelPurple"
+    ]
+
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Choose a Color")
+                .font(.system(size: 17, weight: .semibold, design: .rounded))
+                .foregroundColor(Color.customPalette.lightGray)
+            
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 60))], spacing: 15) {
+                ForEach(colors, id: \.self) { colorName in
+                    ColorButton(colorName: colorName, isSelected: selectedColor == colorName) {
+                        selectedColor = colorName
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+struct ColorButton: View {
+    let colorName: String
+    let isSelected: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            Circle()
+                .fill(Color.customPalette[colorName] ?? .gray)
+                .frame(width: 60, height: 60)
+                .overlay(
+                    Circle()
+                        .stroke(isSelected ? Color.black : Color.clear, lineWidth: 3)
+                )
+        }
+    }
+}

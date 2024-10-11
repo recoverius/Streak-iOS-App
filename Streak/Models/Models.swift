@@ -7,6 +7,7 @@ struct User: Identifiable, Codable {
     var settings: UserSettings
     var achievements: [Achievement]
     var trackers: [Tracker]
+//    var friends: [Friend]
     
     init(cdUser: CDUser) {
         self.id = cdUser.id
@@ -15,6 +16,7 @@ struct User: Identifiable, Codable {
         self.settings = UserSettings(cdUser: cdUser)
         self.achievements = cdUser.achievementsArray.map { Achievement(cdAchievement: $0) }
         self.trackers = cdUser.trackersArray.map { Tracker(cdTracker: $0) }
+//        self.friends = cdUser.friendsArray.map { Friend(cdFriend: $0) }
     }
 }
 
@@ -51,22 +53,39 @@ struct Reminder: Codable, Identifiable, Equatable {
 }
 
 struct Tracker: Identifiable, Codable {
-    let id: UUID
-    var name: String
-    var iconName: String
-    var target: HabitTarget
-    var createdDate: Date
-    var entries: [TrackingEntry]
-    
-    init(cdTracker: CDTracker) {
-        self.id = cdTracker.id
-        self.name = cdTracker.name
-        self.iconName = cdTracker.iconName
-        self.target = HabitTarget(rawValue: Int(cdTracker.targetDays)) ?? .daily
-        self.createdDate = cdTracker.createdDate
-        self.entries = cdTracker.entriesArray.map { TrackingEntry(cdEntry: $0) }
-    }
-}
+       let id: UUID
+       var name: String
+       var iconName: String
+       var colorName: String
+       var target: HabitTarget
+       var createdDate: Date
+       var entries: [TrackingEntry]
+       var startDate: Date
+
+       init(cdTracker: CDTracker) {
+           self.id = cdTracker.id
+           self.name = cdTracker.name
+           self.iconName = cdTracker.iconName
+           self.colorName = cdTracker.colorName.isEmpty ? "pastelBlue" : cdTracker.colorName
+           self.target = HabitTarget(rawValue: Int(cdTracker.targetDays)) ?? .daily
+           self.createdDate = cdTracker.createdDate
+
+           // Safely handle the optional startDate
+           if let startDate = cdTracker.startDate {
+               let defaultDate = Date(timeIntervalSinceReferenceDate: 0) // January 1, 2001
+               if startDate == defaultDate {
+                   self.startDate = cdTracker.createdDate
+               } else {
+                   self.startDate = startDate
+               }
+           } else {
+               // If startDate is nil, use createdDate
+               self.startDate = cdTracker.createdDate
+           }
+
+           self.entries = cdTracker.entriesArray.map { TrackingEntry(cdEntry: $0) }
+       }
+   }
 
 struct TrackingEntry: Identifiable, Codable {
     let id: UUID

@@ -58,7 +58,7 @@ struct AchievementCard: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(achievement.title)
                     .font(.system(size: 18, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                 Text(achievement.description)
                     .font(.system(size: 14, weight: .regular, design: .rounded))
                     .foregroundColor(Color.customPalette.lightGray)

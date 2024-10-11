@@ -6,9 +6,25 @@
         <attribute name="iconName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="achievements" inverseEntity="Friend"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="achievements" inverseEntity="User"/>
     </entity>
-    <entity name="Reward" representedClassName="CDReward" syncable="YES">
+    <entity name="CalendarEntry" representedClassName=".CDCalendarEntry" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="calendarEntries" inverseEntity="Friend"/>
+        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tracker" inverseName="calendarEntries" inverseEntity="Tracker"/>
+    </entity>
+    <entity name="Friend" representedClassName=".CDFriend" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="phoneNumber" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <relationship name="achievements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Achievement" inverseName="friend" inverseEntity="Achievement"/>
+        <relationship name="calendarEntries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CalendarEntry" inverseName="friend" inverseEntity="CalendarEntry"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="friends" inverseEntity="User"/>
+    </entity>
+    <entity name="Reward" representedClassName=".CDReward" syncable="YES">
         <attribute name="iconName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="rewardDescription" optional="YES" attributeType="String"/>
@@ -17,11 +33,14 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="rewards" inverseEntity="User"/>
     </entity>
     <entity name="Tracker" representedClassName=".CDTracker" syncable="YES">
+        <attribute name="colorName" optional="YES" attributeType="String"/>
         <attribute name="createdDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="iconName" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="startDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="targetDays" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="calendarEntries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="CalendarEntry" inverseName="tracker" inverseEntity="CalendarEntry"/>
         <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackingEntry" inverseName="tracker" inverseEntity="TrackingEntry"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="trackers" inverseEntity="User"/>
     </entity>
@@ -40,6 +59,7 @@
         <attribute name="reminderTimes" optional="YES" attributeType="Transformable" valueTransformerName="DateArrayTransformer" customClassName="NSArray"/>
         <attribute name="theme" optional="YES" attributeType="String"/>
         <relationship name="achievements" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Achievement" inverseName="user" inverseEntity="Achievement"/>
+        <relationship name="friends" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Friend" inverseName="user" inverseEntity="Friend"/>
         <relationship name="rewards" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Reward" inverseName="user" inverseEntity="Reward"/>
         <relationship name="trackers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tracker" inverseName="user" inverseEntity="Tracker"/>
     </entity>
