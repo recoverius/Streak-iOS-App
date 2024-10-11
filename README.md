@@ -13,7 +13,7 @@ Streak is an experimental minimalist habit tracking app developed in just 6 hour
 
 ## Development Process
 
-This app was created as an experiment in rapid prototyping using AI assistance (Sonnet 3.5 and 10 preview). The entire development process, from ideation to implementation, was completed in 6 hours with the help of Large Language Models. Key steps in the process:
+This app was created as an experiment in rapid prototyping using AI assistance (Sonnet 3.5 and 1o preview). The entire development process, from ideation to implementation, was completed in 6 hours with the help of Large Language Models. Key steps in the process:
 
 - Initial app concept and feature brainstorming with LLM
 - Architecture and code structure planning
