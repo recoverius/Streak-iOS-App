@@ -1,7 +1,11 @@
 # Streak: Minimalist Habit Tracker
 
 ## About
-<img src="https://github.com/user-attachments/assets/2a923e4b-dda7-4e12-8f98-9411d54f853f" width="200" height="400" />
+
+<img src="https://github.com/user-attachments/assets/3c4ba39d-43e4-4ffe-9008-15e14170d07a" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/3f40b44d-4e5b-48c9-9614-508afa8f5a90" width="200" height="400" />
+<img src="https://github.com/user-attachments/assets/3c7a95e4-a4b1-4796-8329-083eac228a69" width="200" height="400" />
+
 
 [![Link to AppStore](https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg)](https://apps.apple.com/nl/app/streak-habit-tracker/id6692634213?l=en-GB)
 
