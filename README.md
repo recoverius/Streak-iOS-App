@@ -38,6 +38,11 @@ Feel free to contribute! Feedback and suggestions are welcome!
 
 GNU General Public License v3.0
 
+
 Check out my other projects:
-Data Cleaner - [![Text-to-columns on steroids](data-cleaning.com)
-PurrWalk Free Audio Guide  - [![PurrWalk](purrwalk.com)
+
+
+Data Cleaner - [![Text-to-columns on steroids]()(data-cleaning.com)
+
+
+PurrWalk Free Audio Guide  - [![PurrWalk]()(purrwalk.com)
